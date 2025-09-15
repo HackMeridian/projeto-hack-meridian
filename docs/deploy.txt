@@ -1,0 +1,41 @@
+$ stellar contract deploy --source-account deb --wasm ./target/wasm32v1-none/release/bond_storage.optimized.wasm 
+ℹ️ Simulating install transaction…
+ℹ️ Signing transaction: ee86dcb1e54bb4bff05a37926fe96e87d7ad5a0c7371d5b16f14ceac49c1db61
+🌎 Submitting install transaction…
+ℹ️ Using wasm hash 49817e548062d776410a4fe37d40c272727e884b3862625d61095808806ec72d
+ℹ️ Simulating deploy transaction…
+ℹ️ Transaction hash is 36079e651e51e56c8482bc6adc1a0c71452c8dfef163e23ea85c33a24132193a
+🔗 https://stellar.expert/explorer/testnet/tx/36079e651e51e56c8482bc6adc1a0c71452c8dfef163e23ea85c33a24132193a
+ℹ️ Signing transaction: 36079e651e51e56c8482bc6adc1a0c71452c8dfef163e23ea85c33a24132193a
+🌎 Submitting deploy transaction…
+🔗 https://stellar.expert/explorer/testnet/contract/CD6RSELJQKHK4C3LYJR7QUH2Y7573S3LBAROXD77CPKEMB6DVSFPEWBP
+✅ Deployed!
+CD6RSELJQKHK4C3LYJR7QUH2Y7573S3LBAROXD77CPKEMB6DVSFPEWBP
+
+$ stellar contract deploy --source-account deb --wasm ./target/wasm32v1-none/release/attorneycoin.optimized.wasm 
+ℹ️ Simulating install transaction…
+ℹ️ Signing transaction: 57314d6c2543ecc66263667f844ebe24d4c71d7cd04c14ec604d52dfebc2803f
+🌎 Submitting install transaction…
+ℹ️ Using wasm hash 344b3b60773e6f6d0dae8db63f46281877a3172b8b6e29f7f8a241e9f44729f3
+ℹ️ Simulating deploy transaction…
+ℹ️ Transaction hash is f3a113f42270c73edbef047dbf72e48f2a7e94ff7e76d516c809d7e44039ad64
+🔗 https://stellar.expert/explorer/testnet/tx/f3a113f42270c73edbef047dbf72e48f2a7e94ff7e76d516c809d7e44039ad64
+ℹ️ Signing transaction: f3a113f42270c73edbef047dbf72e48f2a7e94ff7e76d516c809d7e44039ad64
+🌎 Submitting deploy transaction…
+🔗 https://stellar.expert/explorer/testnet/contract/CAX2HTKG3ECV2VSJEEMMFHWLTQ7FWIOSKJUIWIJ3ZD44AUGPFKFWM5CJ
+✅ Deployed!
+CAX2HTKG3ECV2VSJEEMMFHWLTQ7FWIOSKJUIWIJ3ZD44AUGPFKFWM5CJ
+
+$ stellar contract deploy --source-account deb --wasm ./target/wasm32v1-none/release/token_custody.optimized.wasm 
+ℹ️ Simulating install transaction…
+ℹ️ Signing transaction: 33ae5f167f7c563613c61123b338d7e98694e12e73fee699587af88aa9de089e
+🌎 Submitting install transaction…
+ℹ️ Using wasm hash c9176b91024be33e4ca29424b369ee759537e993cf5955654d71b61119797400
+ℹ️ Simulating deploy transaction…
+ℹ️ Transaction hash is ca11972e35ba07aa0e674a6ee8b55db0d7e91aecfac48a0a5225e1333821540f
+🔗 https://stellar.expert/explorer/testnet/tx/ca11972e35ba07aa0e674a6ee8b55db0d7e91aecfac48a0a5225e1333821540f
+ℹ️ Signing transaction: ca11972e35ba07aa0e674a6ee8b55db0d7e91aecfac48a0a5225e1333821540f
+🌎 Submitting deploy transaction…
+🔗 https://stellar.expert/explorer/testnet/contract/CCADIBQJGFGXXCMOWODSK3GTZERAOW4GDSM22MN43QSLYTZHR4NC7SVH
+✅ Deployed!
+CCADIBQJGFGXXCMOWODSK3GTZERAOW4GDSM22MN43QSLYTZHR4NC7SVH

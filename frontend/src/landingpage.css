@@ -1,0 +1,18 @@
+
+.gradiente-bg {
+  background: linear-gradient(
+    90deg,
+    rgba(245, 247, 250, 1) 0%,
+    rgba(255, 255, 255, 0.59) 50%,
+    rgba(17, 46, 73, 1) 100%
+  );
+}
+
+.text-contorno {
+  color: white;
+  text-shadow:
+    -1px -1px 0 #000,
+     1px -1px 0 #000,
+    -1px  1px 0 #000,
+     1px  1px 0 #000;
+}
