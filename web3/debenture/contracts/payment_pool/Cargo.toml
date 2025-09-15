@@ -10,6 +10,7 @@ doctest = false
 
 [dependencies]
 soroban-sdk = { workspace = true }
+token_minting = { path = "../token_minting" }
 
 [dev-dependencies]
 soroban-sdk = { workspace = true, features = ["testutils"] }

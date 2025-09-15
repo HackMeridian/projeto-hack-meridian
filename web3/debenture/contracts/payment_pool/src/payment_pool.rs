@@ -1,13 +1,17 @@
-#![no_std]
-use soroban_sdk::{contract, contractimpl, Env, Address};
+use soroban_sdk::{contract, contractimpl, contracttype, Env, Address};
+//use token_minting::token_minting::TokenMinting;
 
-#[contract]
+#[contracttype]
+#[derive(Clone)]
 pub struct PaymentPool {
     minting_contract: Address,
 }
 
+#[contract]
+pub struct PaymentPoolContract;
+
 #[contractimpl]
-impl PaymentPool {
+impl PaymentPoolContract {
     pub fn initialize(_env: Env, minting_contract: Address) -> Self {
         Self { minting_contract }
     }

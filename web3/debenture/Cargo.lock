@@ -859,6 +859,7 @@ name = "payment_pool"
 version = "0.0.1"
 dependencies = [
  "soroban-sdk",
+ "token_minting",
 ]
 
 [[package]]
