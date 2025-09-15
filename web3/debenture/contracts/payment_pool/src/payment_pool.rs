@@ -1,19 +1,12 @@
-use soroban_sdk::{contract, contractimpl, contracttype, Env, Address};
-//use token_minting::token_minting::TokenMinting;
-
-#[contracttype]
-#[derive(Clone)]
-pub struct PaymentPool {
-    minting_contract: Address,
-}
+use soroban_sdk::{contract, contractimpl, Env, Address, Symbol, IntoVal, vec};
 
 #[contract]
 pub struct PaymentPoolContract;
 
 #[contractimpl]
 impl PaymentPoolContract {
-    pub fn initialize(_env: Env, minting_contract: Address) -> Self {
-        Self { minting_contract }
+    pub fn initialize(env: Env, minting_contract: Address) {
+        env.storage().instance().set(&"minting_contract", &minting_contract);
     }
 
     pub fn deposit_usdc(env: Env, payer: Address, usdc_amount: i128, denomination: i128) {
@@ -24,13 +17,14 @@ impl PaymentPoolContract {
 
         // Aqui no frontend deve ser feita a transferência USDC antes
         // Este contrato apenas chama a mintagem
+        let minting_contract: Address = env.storage().instance().get(&"minting_contract").unwrap();
 
-        env.invoke_contract(
-            &self.minting_contract,
-            &"mint_tokens",
-            (payer.clone(), number_of_bonds as u64),
+        env.invoke_contract::<()>(
+            &minting_contract,
+            &Symbol::new(&env, "mint_tokens"),
+            vec![&env, payer.into_val(&env), (number_of_bonds as u64).into_val(&env)],
         );
 
-        env.events().publish(("PaymentReceived",), usdc_amount);
+        //env.events().publish((Symbol::new(&env, "PaymentReceived"),), usdc_amount);
     }
 }

@@ -34,17 +34,16 @@ if (typeof window !== 'undefined') {
 export const networks = {
   testnet: {
     networkPassphrase: "Test SDF Network ; September 2015",
-    contractId: "CBCNKHLRKCIC6I4DSQE2JNL5WLEUWA5TIJQTZGBVZTYQIIUUW5SMXTZN",
+    contractId: "CAVM4FUIEDRYMWH6GBPBNAJPMRBXRB2VLQ4K37667A6U2W7QLCAMSYMZ",
   }
 } as const
 
-export type DataKey = {tag: "Count", values: readonly [string]} | {tag: "Bonds", values: readonly [string]};
 
 export interface Client {
   /**
-   * Construct and simulate a deposit_bond transaction. Returns an `AssembledTransaction` object which will have a `result` field containing the result of the simulation. If this transaction changes contract state, you will need to call `signAndSend()` on the returned object.
+   * Construct and simulate a initialize transaction. Returns an `AssembledTransaction` object which will have a `result` field containing the result of the simulation. If this transaction changes contract state, you will need to call `signAndSend()` on the returned object.
    */
-  deposit_bond: ({user, bond_id}: {user: string, bond_id: u64}, options?: {
+  initialize: ({minting_contract}: {minting_contract: string}, options?: {
     /**
      * The fee to pay for the transaction. Default: BASE_FEE
      */
@@ -62,9 +61,9 @@ export interface Client {
   }) => Promise<AssembledTransaction<null>>
 
   /**
-   * Construct and simulate a get_total_bonds_deposited transaction. Returns an `AssembledTransaction` object which will have a `result` field containing the result of the simulation. If this transaction changes contract state, you will need to call `signAndSend()` on the returned object.
+   * Construct and simulate a deposit_usdc transaction. Returns an `AssembledTransaction` object which will have a `result` field containing the result of the simulation. If this transaction changes contract state, you will need to call `signAndSend()` on the returned object.
    */
-  get_total_bonds_deposited: ({user}: {user: string}, options?: {
+  deposit_usdc: ({payer, usdc_amount, denomination}: {payer: string, usdc_amount: i128, denomination: i128}, options?: {
     /**
      * The fee to pay for the transaction. Default: BASE_FEE
      */
@@ -79,27 +78,7 @@ export interface Client {
      * Whether to automatically simulate the transaction when constructing the AssembledTransaction. Default: true
      */
     simulate?: boolean;
-  }) => Promise<AssembledTransaction<u64>>
-
-  /**
-   * Construct and simulate a get_bonds_position_custody transaction. Returns an `AssembledTransaction` object which will have a `result` field containing the result of the simulation. If this transaction changes contract state, you will need to call `signAndSend()` on the returned object.
-   */
-  get_bonds_position_custody: ({user}: {user: string}, options?: {
-    /**
-     * The fee to pay for the transaction. Default: BASE_FEE
-     */
-    fee?: number;
-
-    /**
-     * The maximum amount of time to wait for the transaction to complete. Default: DEFAULT_TIMEOUT
-     */
-    timeoutInSeconds?: number;
-
-    /**
-     * Whether to automatically simulate the transaction when constructing the AssembledTransaction. Default: true
-     */
-    simulate?: boolean;
-  }) => Promise<AssembledTransaction<Array<u64>>>
+  }) => Promise<AssembledTransaction<null>>
 
 }
 export class Client extends ContractClient {
@@ -119,16 +98,13 @@ export class Client extends ContractClient {
   }
   constructor(public readonly options: ContractClientOptions) {
     super(
-      new ContractSpec([ "AAAAAgAAAAAAAAAAAAAAB0RhdGFLZXkAAAAAAgAAAAEAAAAAAAAABUNvdW50AAAAAAAAAQAAABMAAAABAAAAAAAAAAVCb25kcwAAAAAAAAEAAAAT",
-        "AAAAAAAAAAAAAAAMZGVwb3NpdF9ib25kAAAAAgAAAAAAAAAEdXNlcgAAABMAAAAAAAAAB2JvbmRfaWQAAAAABgAAAAA=",
-        "AAAAAAAAAAAAAAAZZ2V0X3RvdGFsX2JvbmRzX2RlcG9zaXRlZAAAAAAAAAEAAAAAAAAABHVzZXIAAAATAAAAAQAAAAY=",
-        "AAAAAAAAAAAAAAAaZ2V0X2JvbmRzX3Bvc2l0aW9uX2N1c3RvZHkAAAAAAAEAAAAAAAAABHVzZXIAAAATAAAAAQAAA+oAAAAG" ]),
+      new ContractSpec([ "AAAAAAAAAAAAAAAKaW5pdGlhbGl6ZQAAAAAAAQAAAAAAAAAQbWludGluZ19jb250cmFjdAAAABMAAAAA",
+        "AAAAAAAAAAAAAAAMZGVwb3NpdF91c2RjAAAAAwAAAAAAAAAFcGF5ZXIAAAAAAAATAAAAAAAAAAt1c2RjX2Ftb3VudAAAAAALAAAAAAAAAAxkZW5vbWluYXRpb24AAAALAAAAAA==" ]),
       options
     )
   }
   public readonly fromJSON = {
-    deposit_bond: this.txFromJSON<null>,
-        get_total_bonds_deposited: this.txFromJSON<u64>,
-        get_bonds_position_custody: this.txFromJSON<Array<u64>>
+    initialize: this.txFromJSON<null>,
+        deposit_usdc: this.txFromJSON<null>
   }
 }
