@@ -93,16 +93,7 @@ async fn main() -> anyhow::Result<()> {
 
     tracing::info!("Servidor iniciado na porta {}", port);
     tracing::info!("API de Debêntures disponível em http://localhost:{}", port);
-    tracing::info!("Endpoints disponíveis:");
-    tracing::info!("GET /health - Health check");
-    tracing::info!("GET /system/info - Informações do sistema");
-    tracing::info!("GET /balances - Saldos de tokens");
-    tracing::info!("GET /subscriptions - Todas as subscrições");
-    tracing::info!("GET /subscriptions/:id - Subscrição específica");
-    tracing::info!("GET /bonds/:id - Detalhes da debênture");
-    tracing::info!("GET /amortizations - Amortizações pendentes");
-    tracing::info!("GET /bot/status - Status do bot");
-    tracing::info!("GET /ipca - Informações do IPCA");
+    tracing::info!("POST /payments - Processar pagamento (mock)");
 
     // Inicia o servidor
     axum::serve(listener, app).await?;
