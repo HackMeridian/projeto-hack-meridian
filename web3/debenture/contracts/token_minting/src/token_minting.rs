@@ -1,6 +1,6 @@
 use soroban_sdk::{contract, contractimpl, contracttype, Env, Address, Vec, Symbol, vec, IntoVal, String};
 
-// Definições das structs diretamente no arquivo (sem dependência externa)
+// Struct definition
 #[contracttype]
 #[derive(Clone)]
 pub struct Bond {
@@ -53,7 +53,7 @@ impl TokenMintingContract {
         let mut max_supply: u64 = env.storage().persistent().get(&Symbol::new(&env, "max_total_supply")).unwrap_or(40000);
         assert!(number_of_debentures <= max_supply, "MAX_SUPPLY_EXCEEDED");
 
-        // Atualiza investorData
+        // Update investorData
         let issue_data = IssueData {
             investor: payer.clone(),
             principal: number_of_debentures,
@@ -68,10 +68,10 @@ impl TokenMintingContract {
             issue_number += 1;
             env.storage().persistent().set(&Symbol::new(&env, "issue_number"), &issue_number);
 
-            // Pega dados do BondStorage
+            // get data BondStorage
             let bond_template: Bond = env.storage().persistent().get(&Symbol::new(&env, "bond_template")).unwrap();
 
-            // Cria bond novo
+            // Create new bond 
             let bond = Bond {
                 currency: bond_template.currency.clone(),
                 denomination: bond_template.denomination,
@@ -86,20 +86,20 @@ impl TokenMintingContract {
             let bond_key = (bond_id, Symbol::new(&env, "bond"));
             env.storage().persistent().set(&bond_key, &bond);
 
-            // Atualiza investorBonds
+            // Update investorBonds
             let mut bonds: Vec<u64> = env.storage().persistent().get(&payer).unwrap_or(Vec::new(&env));
             bonds.push_back(bond_id);
             env.storage().persistent().set(&payer, &bonds);
 
-            // Atualiza bondToInvestor
+            // Update bondToInvestor
             let owner_key = (bond_id, Symbol::new(&env, "owner"));
             env.storage().persistent().set(&owner_key, &payer);
 
-            // Reduz supply
+            // Reduce supply
             max_supply -= 1;
             env.storage().persistent().set(&Symbol::new(&env, "max_total_supply"), &max_supply);
 
-            // Chama TokenCustody - corrigido
+            // Call TokenCustody 
             let custody_contract_address: Address = env.storage().instance()
                 .get(&Symbol::new(&env, "custody_contract")).unwrap();
 
@@ -114,22 +114,22 @@ impl TokenMintingContract {
     }
 
     pub fn transfer_bond_ownership(env: Env, bond_id: u64, new_investor: Address) {
-        // Validação básica do novo investidor
+        // Basic validation of investor
         assert!(!new_investor.to_string().is_empty(), "Novo investidor inválido");
 
         let owner_key = (bond_id, Symbol::new(&env, "owner"));
         let current_owner: Address = env.storage().persistent().get(&owner_key).unwrap();
         
-        // Validação do dono atual
+        // Owner Validation
         assert!(!current_owner.to_string().is_empty(), "Bond não possui dono");
 
-        // Atualiza novo dono
+        // Updaate new owner
         env.storage().persistent().set(&owner_key, &new_investor);
 
-        // Remove bond do investidor anterior
+        // Remove bond of old investor
         let old_bonds: Vec<u64> = env.storage().persistent().get(&current_owner).unwrap_or(Vec::new(&env));
         
-        // Cria um novo Vec filtrando o bond removido
+        // Create new Vec filtering removed bond
         let mut filtered_bonds = Vec::new(&env);
         for bond in old_bonds.iter() {
             if bond != bond_id {
@@ -138,7 +138,7 @@ impl TokenMintingContract {
         }
         env.storage().persistent().set(&current_owner, &filtered_bonds);
 
-        // Adiciona ao novo investidor
+        // Add to new investor
         let mut new_bonds: Vec<u64> = env.storage().persistent().get(&new_investor).unwrap_or(Vec::new(&env));
         new_bonds.push_back(bond_id);
         env.storage().persistent().set(&new_investor, &new_bonds);
@@ -164,7 +164,7 @@ impl TokenMintingContract {
     }
 
     pub fn set_bond_template(env: Env, bond_template: Bond) {
-        // Função para definir o template do bond
+        // Bond template
         env.storage().persistent().set(&Symbol::new(&env, "bond_template"), &bond_template);
     }
 }

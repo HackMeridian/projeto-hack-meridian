@@ -1,8 +1,8 @@
 use soroban_sdk::{contract, contractimpl, contracttype, Address, Env, String};
 
 // -------------------------
-//  Definições de Structs
-// -------------------------
+//  Structs definition
+ // -------------------------
 
 #[contracttype]
 #[derive(Clone)]
@@ -42,7 +42,7 @@ pub enum BondStatus {
 }
 
 // -------------------------
-//  Contrato BondStorage
+//  Contract BondStorage
 // -------------------------
 
 #[contract]
@@ -58,14 +58,14 @@ impl BondStorage {
         env.storage().instance().set(&"bondStatus", &BondStatus::Offered);
     }
 
-    // Apenas o manager pode alterar
+    // Only manager can be change
     fn require_manager(env: &Env) {
         let manager: Address = env.storage().instance().get(&"manager").unwrap();
         manager.require_auth();
     }
 
     // ------------------------
-    //   Funções de SET
+    //   SET Functions
     // ------------------------
 
     pub fn set_bond(env: Env, bond: Bond) {
@@ -81,7 +81,7 @@ impl BondStorage {
     }
 
     // ------------------------
-    //   Funções de GET
+    //   GET Functions
     // ------------------------
 
     pub fn institution(env: Env) -> Address {
